@@ -7,16 +7,21 @@ services:
                 volumes:
                         - ./build_env/mysql/master.cnf:/etc/mysql/conf.d/mysql.cnf
                         - ./build_env/mysql/master.sql:/docker-entrypoint-initdb.d/start.sql
+                        - ./databases-master:/var/lib/mysql
                 environment:
                         MYSQL_ROOT_PASSWORD: "toortoor"
+                ports:
+                        - "3339:3306"
 
         mysqlread1:
                 image: 'mysql:8.0'
                 container_name: db-slave
                 volumes:
                         - ./build_env/mysql/slave.cnf:/etc/mysql/conf.d/mysql.cnf
-                        - ./build_env/mysql/slave.sql:/docker-entrypoint-initdb.d/start.sql
+                        - ./build_env/mysql/slave.sql:/docker-entrypoint-initdb.d/start.sql  
                 depends_on:
                         - mysql
                 environment:
                         MYSQL_ROOT_PASSWORD: "toortoor"
+                ports:
+                        - "3340:4406"
